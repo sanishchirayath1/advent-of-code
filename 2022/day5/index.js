@@ -1,6 +1,6 @@
 import { syncReadFile } from "../utils.js";
 
-let stacks = [
+let stacks1 = [
   ["W", "M", "L", "F"],
   ["B", "Z", "V", "M", "F"],
   ["H", "V", "R", "S", "L", "Q"],
@@ -12,8 +12,17 @@ let stacks = [
   ["B", "M", "J", "C", "G", "H", "Z", "W"],
 ];
 
-let part1Stacks = stacks.map((el) => el);
-let part2Stacks = stacks.map((el) => el);
+let stacks2 = [
+  ["W", "M", "L", "F"],
+  ["B", "Z", "V", "M", "F"],
+  ["H", "V", "R", "S", "L", "Q"],
+  ["F", "S", "V", "Q", "P", "M", "T", "J"],
+  ["L", "S", "W"],
+  ["F", "V", "P", "M", "R", "J", "W"],
+  ["J", "Q", "C", "P", "N", "R", "F"],
+  ["V", "H", "P", "S", "Z", "W", "R", "B"],
+  ["B", "M", "J", "C", "G", "H", "Z", "W"],
+];
 
 let arr = syncReadFile("./input.txt");
 let moves = arr.map((el) => {
@@ -31,7 +40,7 @@ for (let i = 0; i < part1Moves.length; i++) {
   to--;
 
   while (boxCount > 0) {
-    part1Stacks[to].push(part1Stacks[from].pop());
+    stacks1[to].push(stacks1[from].pop());
 
     boxCount--;
   }
@@ -42,24 +51,21 @@ for (let i = 0; i < part2Moves.length; i++) {
   from--;
   to--;
 
-  part2Stacks[to] = [...part2Stacks[to], ...part2Stacks[from].slice(-boxCount)];
+  stacks2[to] = [...stacks2[to], ...stacks2[from].slice(-boxCount)];
 
   for (let i = 0; i < boxCount; i++) {
-    part2Stacks[from].pop();
+    stacks2[from].pop();
   }
 }
-
-// console.log('Ending stack Part1', part1Stacks);
-// console.log('Ending stack Part2', part2Stacks);
 
 let stringPart1 = "";
 let stringPart2 = "";
 
-part1Stacks.forEach((el) => {
+stacks1.forEach((el) => {
   stringPart1 += el[el.length - 1];
 });
 
-part2Stacks.forEach((el) => {
+stacks2.forEach((el) => {
   stringPart2 += el[el.length - 1];
 });
 
