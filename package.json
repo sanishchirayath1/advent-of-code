@@ -14,5 +14,11 @@
   "devDependencies": {
     "nodemon": "^2.0.20",
     "vitest": "^0.25.5"
-  }
+  },
+  "files": [
+    "src",
+    "index.js",
+    "*/**/**.test.js",
+    "*/**/**.spec.js"
+  ]
 }
