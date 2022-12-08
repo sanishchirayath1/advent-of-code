@@ -67,10 +67,8 @@ arr.forEach((line) => {
 });
 
 // add up all the file sizes of  the children to get the total file size of the parent
-// do this recursively
-let memoized = {};
 Object.keys(directories).forEach((dir) => {
-  directories[dir].totalFileSize = getTotalFileSize(directories[dir], memoized);
+  directories[dir].totalFileSize = getTotalFileSize(directories[dir]);
 });
 
 // part 1
@@ -95,21 +93,22 @@ function isDir(line) {
 }
 
 function isFile(line) {
-  // starts with a number
   return !isNaN(parseInt(line[0]));
 }
 
-function getTotalFileSize(dir, memo) {
-  if (memo[dir.dirName]) {
-    return memo[dir.dirName];
+function getTotalFileSize(dir) {
+  let stack = [];
+  let sum = 0;
+
+  stack.push(dir);
+
+  while (stack.length > 0) {
+    let curr = stack.pop();
+    sum += curr.fileSize;
+    curr.children.forEach((child) => {
+      stack.push(directories[child]);
+    });
   }
 
-  let sum = dir.fileSize;
-  // iterate through the children and add up their file sizes do not do this recursively
-  dir.children.forEach((child) => {
-    sum += directories[child].fileSize;
-  });
-
-  memo[dir.dirName] = sum;
   return sum;
 }
