@@ -24,6 +24,7 @@ for (let y = 0; y < height; y++) {
 console.log("Part 1 >> ", visibleTreeCount);
 console.log("Part 2 >> ", highestScenicScore);
 
+// Helper functions
 function isTreeVisible(x, y, array) {
   if (isEdge(x, y)) {
     return true;
