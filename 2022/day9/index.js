@@ -60,8 +60,17 @@ let grid = new Array(maxY + Math.abs(minY) + 1).fill(0).map(() => {
 console.log("grid : ", grid);
 
 startXY = [Math.abs(minX), Math.abs(minY)];
-let positionHeadXY = [...startXY];
-let positionTailXY = [...startXY];
+// let positionHeadXY = [...startXY];
+// let positionTailXY = [...startXY];
+
+let snakeLength = 10;
+
+let snake = new Array(snakeLength).fill(0).map(() => {
+  let [first, second] = startXY;
+  return [first, second];
+});
+
+console.log("snake : ", snake);
 
 arr.forEach((item) => {
   let [direction, distance] = item;
@@ -69,34 +78,42 @@ arr.forEach((item) => {
   switch (direction) {
     case "R":
       for (let i = 0; i < parseInt(distance); i++) {
-        positionHeadXY[0]++;
-        handleTailMovement();
+        snake[0][0]++;
+        for (let index = 1; index < snake.length; index++) {
+          handleBlockMovement(index - 1, index);
+        }
       }
       break;
     case "U":
       for (let i = 0; i < parseInt(distance); i++) {
-        positionHeadXY[1]++;
-        handleTailMovement();
+        snake[0][1]++;
+        for (let index = 1; index < snake.length; index++) {
+          handleBlockMovement(index - 1, index);
+        }
       }
       break;
     case "L":
       for (let i = 0; i < parseInt(distance); i++) {
-        positionHeadXY[0]--;
-        handleTailMovement();
+        snake[0][0]--;
+        for (let index = 1; index < snake.length; index++) {
+          handleBlockMovement(index - 1, index);
+        }
       }
       break;
     case "D":
       for (let i = 0; i < parseInt(distance); i++) {
-        positionHeadXY[1]--;
-        handleTailMovement();
+        snake[0][1]--;
+        for (let index = 1; index < snake.length; index++) {
+          handleBlockMovement(index - 1, index);
+        }
       }
       break;
   }
 });
 
-function handleTailMovement() {
-  let [headX, headY] = positionHeadXY;
-  let [tailX, tailY] = positionTailXY;
+function handleBlockMovement(headIndex, tailIndex) {
+  let [headX, headY] = snake[headIndex];
+  let [tailX, tailY] = snake[tailIndex];
 
   const goRight = headX > tailX && Math.abs(headX - tailX) > 1;
   const goLeft = headX < tailX && Math.abs(headX - tailX) > 1;
@@ -137,11 +154,12 @@ function handleTailMovement() {
   } else if (goDown) {
     tailY--;
   }
-  positionTailXY = [tailX, tailY];
-  console.log("positionTailXY : ", positionTailXY);
-  console.log("positionHeadXY : ", positionHeadXY);
+  snake[tailIndex] = [tailX, tailY];
+  console.log(snake);
 
-  grid[tailY][tailX] = 1;
+  if (tailIndex === snake.length - 1) {
+    grid[tailY][tailX] = 1;
+  }
 }
 
 console.log("grid : ", grid);
