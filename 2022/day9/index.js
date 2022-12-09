@@ -166,4 +166,5 @@ console.log("grid : ", grid);
 
 let visited = grid.flat().filter((item) => item === 1).length;
 
+// part 1 is basically rope length 2, and part 2 is rope length 10
 console.log("part1 >> ", visited);
