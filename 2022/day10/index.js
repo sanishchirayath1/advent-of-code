@@ -63,5 +63,5 @@ function isSpriteVisible(cycle) {
   return diff >= 0 && diff <= 2;
 }
 
-console.log("part2 >> ", map.size, cycleCount);
+console.log("part2 >> ");
 console.log(str);
