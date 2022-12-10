@@ -2,7 +2,7 @@ import { syncReadFile } from "../utils.js";
 
 let arr = syncReadFile("./input.txt");
 // sample.txt expects 13140 as answer for part 1
-// sample.txt expects 36 as answer for part 2
+// sample.txt expects something rendered as answer for part 2
 
 arr = arr.map((item) => {
   return item.split(" ");
