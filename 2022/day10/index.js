@@ -8,42 +8,35 @@ arr = arr.map((item) => {
   return item.split(" ");
 });
 
-let map1 = new Map(); // part1
-let map2 = new Map(); // part2
-
-// console.log("arr : ", arr);
+let map = new Map();
 let cycleCount = 1;
 let x = 1;
 
+// creating the map
 arr.forEach((item) => {
   let len = item.length;
   let action = item[0];
   let addValue = parseInt(item.slice(1, len));
 
   if (action === "noop") {
-    map1.set(cycleCount, cycleCount * x);
-    map2.set(cycleCount, x);
+    map.set(cycleCount, x);
     cycleCount++;
   } else {
-    map1.set(cycleCount, cycleCount * x);
-    map2.set(cycleCount, x);
+    map.set(cycleCount, x);
     cycleCount++;
-    map1.set(cycleCount, cycleCount * x);
-    map2.set(cycleCount, x);
+    map.set(cycleCount, x);
     x += addValue;
     cycleCount++;
   }
 });
 
-// console.log("map : ", map);
-
+//part1
 let start = 20;
 let commonDiff = 40;
 let sum = 0;
 
 for (let i = start; i < cycleCount; i = i + commonDiff) {
-  sum += map1.get(i);
-  console.log("cycle", i, "sum : ", sum);
+  sum += map.get(i) * i;
 }
 
 console.log("part1 >> ", sum);
@@ -52,7 +45,7 @@ console.log("part1 >> ", sum);
 let str = "";
 
 for (let i = 1; i <= cycleCount; i++) {
-  let x = map2.get(i);
+  let x = map.get(i);
 
   if (isSpriteVisible(i, x)) {
     str += "#";
@@ -71,5 +64,5 @@ function isSpriteVisible(cycle, x) {
   return diff >= 0 && diff <= 2;
 }
 
-console.log("part2 >> ");
-console.log(str);
+console.log("part2 >> ", map.size);
+console.log(str, "\n");
