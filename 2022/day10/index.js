@@ -45,9 +45,7 @@ console.log("part1 >> ", sum);
 let str = "";
 
 for (let i = 1; i <= cycleCount; i++) {
-  let x = map.get(i);
-
-  if (isSpriteVisible(i, x)) {
+  if (isSpriteVisible(i)) {
     str += "#";
   } else {
     str += ".";
@@ -58,8 +56,8 @@ for (let i = 1; i <= cycleCount; i++) {
   }
 }
 
-function isSpriteVisible(cycle, x) {
-  let diff = (cycle % 40) - x;
+function isSpriteVisible(cycle) {
+  let diff = (cycle % 40) - map.get(cycle);
 
   return diff >= 0 && diff <= 2;
 }
