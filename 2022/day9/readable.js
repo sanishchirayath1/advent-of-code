@@ -56,10 +56,10 @@ function moveHead(direction) {
   }
 }
 
-function moveKnot(currentKnot, nextKnot) {
-  let newCoords = { ...nextKnot };
-  let dx = nextKnot.x - currentKnot.x;
-  let dy = nextKnot.y - currentKnot.y;
+function moveKnot(knot1, knot2) {
+  let newCoords = { ...knot2 };
+  let dx = knot2.x - knot1.x;
+  let dy = knot2.y - knot1.y;
 
   if (dx > 0) newCoords.x--;
   else if (dx < 0) newCoords.x++;
