@@ -57,10 +57,10 @@ for (let i = 1; i < cycleCount; i++) {
 }
 
 function isSpriteVisible(cycle) {
-  let diff = (cycle % 40) - map.get(cycle);
+  let diff = (cycle % 40 ? cycle % 40 : 40) - map.get(cycle);
 
   return diff >= 0 && diff <= 2;
 }
 
 console.log("part2 >> ", map.size, cycleCount);
-console.log(str, "\n");
+console.log(str);
