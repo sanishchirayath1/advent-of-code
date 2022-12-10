@@ -66,14 +66,7 @@ for (let i = 1; i <= cycleCount; i++) {
 }
 
 function isSpriteVisible(cycle, x) {
-  let diff;
-
-  if (cycle < 41) diff = cycle - x;
-  else if (cycle < 81) diff = cycle - x - 40;
-  else if (cycle < 121) diff = cycle - x - 80;
-  else if (cycle < 161) diff = cycle - x - 120;
-  else if (cycle < 201) diff = cycle - x - 160;
-  else if (cycle < 241) diff = cycle - x - 200;
+  let diff = (cycle % 40) - x;
 
   return diff >= 0 && diff <= 2;
 }
