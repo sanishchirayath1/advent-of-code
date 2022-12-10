@@ -35,7 +35,7 @@ let start = 20;
 let commonDiff = 40;
 let sum = 0;
 
-for (let i = start; i < cycleCount; i = i + commonDiff) {
+for (let i = start; i <= cycleCount; i = i + commonDiff) {
   sum += map.get(i) * i;
 }
 
@@ -44,7 +44,7 @@ console.log("part1 >> ", sum);
 // part2
 let str = "";
 
-for (let i = 1; i <= cycleCount; i++) {
+for (let i = 1; i < cycleCount; i++) {
   if (isSpriteVisible(i)) {
     str += "#";
   } else {
@@ -62,5 +62,5 @@ function isSpriteVisible(cycle) {
   return diff >= 0 && diff <= 2;
 }
 
-console.log("part2 >> ", map.size);
+console.log("part2 >> ", map.size, cycleCount);
 console.log(str, "\n");
