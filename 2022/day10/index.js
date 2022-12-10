@@ -14,9 +14,8 @@ let x = 1;
 
 // creating the map
 arr.forEach((item) => {
-  let len = item.length;
-  let action = item[0];
-  let addValue = parseInt(item.slice(1, len));
+  let [action, addValue] = item;
+  addValue = parseInt(addValue);
 
   if (action === "noop") {
     map.set(cycleCount, x);
