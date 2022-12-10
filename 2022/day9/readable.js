@@ -16,6 +16,8 @@ moves.forEach((move) => {
   for (let i = 0; i < distance; i++) {
     moveHead(direction);
 
+    /** updating each knot of the rope looking at the knot just infront of it  */
+    /** Knot is 0 index considered as HEAD */
     for (let j = 1; j < rope.length; j++) {
       if (!isTouching(rope[j - 1], rope[j])) {
         rope[j] = moveKnot(rope[j - 1], rope[j]);
