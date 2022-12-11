@@ -15,6 +15,17 @@ arr.forEach((action) => {
   processMonkeyAction(monkeyAction);
 });
 
+/** Generated Monkey Object */
+// 5 => {
+//   monkey: 5,
+//   itemsArr: [ 8205774, 2888916, 2888916 ],
+//   operation: { operator: '*', value: NaN },
+//   divisor: 7,
+//   trueTo: 6,
+//   falseTo: 3,
+//   inspectionCount: 36509
+// }
+
 // end of processing the input
 
 // part1
