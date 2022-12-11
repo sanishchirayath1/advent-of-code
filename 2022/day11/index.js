@@ -54,7 +54,7 @@ let inspectionCountArray = Array.from(monkeyMap.values()).map(
 inspectionCountArray.sort((a, b) => b - a);
 let top2Sum = inspectionCountArray.slice(0, 2).reduce((a, b) => a * b);
 
-console.log("part1 : ", top2Sum);
+console.log("solution: ", top2Sum);
 
 // Helper functions
 function executeRound() {
