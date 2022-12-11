@@ -1,5 +1,6 @@
 import { syncReadFile } from "../utils.js";
 
+console.time("this");
 let arr = syncReadFile("./input.txt");
 // sample.txt expects 13140 as answer for part 1
 // sample.txt expects something rendered as answer for part 2
@@ -64,3 +65,4 @@ function isSpriteVisible(cycle) {
 
 console.log("part2 >> ");
 console.log(str);
+console.timeEnd("this");
