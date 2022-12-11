@@ -18,7 +18,7 @@ arr.forEach((action) => {
 /** Generated Monkey Object */
 /*
 
- 5 => {
+ monkeyObj = {
    monkey: 5,
    itemsArr: [ 8205774, 2888916, 2888916 ],
    operation: { operator: '*', value: 5 },
@@ -27,7 +27,7 @@ arr.forEach((action) => {
    falseTo: 3,
    inspectionCount: 36509
  }
- 
+
  */
 
 // end of processing the input
