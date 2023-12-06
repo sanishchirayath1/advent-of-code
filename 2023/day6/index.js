@@ -65,3 +65,27 @@ for (let i = 1; i <= timeData2; i++) {
 }
 
 console.log("Part 2", numberOfWaysToBeatTheRecord);
+
+// Part 2
+/* Efficient solution, Math */
+/* As we observe the behavoiur of solution, It seems to be within a
+ *  range, we need to find the start, and end of the range, and then
+ * them just fin the difference between them. This is nothing but a
+ * quadratic equation to solve
+ * distance = speed * (time - speed)
+ * distance = speed * time - speed * speed
+ * speed * speed - speed * time + distance = 0
+ */
+
+let a = 1;
+let b = -timeData2;
+let c = distanceData2;
+
+let discriminant = b * b - 4 * a * c;
+let sqrtDiscriminant = Math.sqrt(discriminant);
+let root1 = (-b + sqrtDiscriminant) / (2 * a);
+let root2 = (-b - sqrtDiscriminant) / (2 * a);
+
+numberOfWaysToBeatTheRecord = Math.floor(root1) - Math.floor(root2);
+
+console.log("Part 2", numberOfWaysToBeatTheRecord);
