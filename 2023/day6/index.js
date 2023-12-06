@@ -19,8 +19,6 @@ let distanceData = arr[1]
   .filter((x) => x != "")
   .map((x) => parseInt(x));
 
-console.log(timeData, distanceData);
-
 // Part 1
 let productOfWaysTobeatTheRecord = 1;
 
@@ -39,8 +37,6 @@ for (let i = 0; i < timeData.length; i++) {
     }
   }
 
-  console.log("numberOfWaysToBeatTheRecord", numberOfWaysToBeatTheRecord);
-
   productOfWaysTobeatTheRecord *= numberOfWaysToBeatTheRecord;
 }
 
@@ -49,8 +45,6 @@ console.log("Part 1", productOfWaysTobeatTheRecord);
 // Part 2
 let timeData2 = parseInt(timeData.join(""));
 let distanceData2 = parseInt(distanceData.join(""));
-
-console.log(timeData2, distanceData2);
 
 let numberOfWaysToBeatTheRecord = 0;
 
@@ -65,6 +59,26 @@ for (let i = 1; i <= timeData2; i++) {
 }
 
 console.log("Part 2", numberOfWaysToBeatTheRecord);
+
+// Part 1, Math solution
+/* Efficient solution, Math */
+productOfWaysTobeatTheRecord = 1;
+for (let i = 0; i < timeData.length; i++) {
+  let a = 1;
+  let b = -timeData[i];
+  let c = distanceData[i];
+
+  let discriminant = b * b - 4 * a * c;
+  let sqrtDiscriminant = Math.sqrt(discriminant);
+  let root1 = (-b + sqrtDiscriminant) / (2 * a);
+  let root2 = (-b - sqrtDiscriminant) / (2 * a);
+
+  let numberOfWaysToBeatTheRecord = Math.floor(root1) - Math.floor(root2);
+
+  productOfWaysTobeatTheRecord *= numberOfWaysToBeatTheRecord;
+}
+
+console.log("Part 1 Eff", productOfWaysTobeatTheRecord);
 
 // Part 2
 /* Efficient solution, Math */
@@ -88,4 +102,4 @@ let root2 = (-b - sqrtDiscriminant) / (2 * a);
 
 numberOfWaysToBeatTheRecord = Math.floor(root1) - Math.floor(root2);
 
-console.log("Part 2", numberOfWaysToBeatTheRecord);
+console.log("Part 2 Eff", numberOfWaysToBeatTheRecord);
