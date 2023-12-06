@@ -1,6 +1,6 @@
 import { syncReadFile } from "../utils.js";
 
-let arr = syncReadFile("./input.txt", "\n\n");
+let arr = syncReadFile("./sample.txt", "\n\n");
 // sample.txt expects 35 as answer for part 1
 // sample.txt expects 46 as answer for part 2
 
@@ -59,16 +59,75 @@ let seeds = infoMap.get("seeds");
 console.log("Part 1", getMinLocation(seeds));
 
 //Part 2
-console.log("Part 2", getMinLocationSecondPart(seeds));
+let seeds2 = [];
+console.log(infoMap);
+for (let i = 0; i < seeds.length; i += 2) {
+  let [seedStart, length] = seeds.slice(i, i + 2);
+  seeds2.push([seedStart, seedStart + length]);
+}
+console.log(seeds2);
 
-function getMinLocationSecondPart(seeds) {
-  let minLocation = Infinity;
+function getMinLocationSecondPart() {
   let keys = [...infoMap.keys()].filter((key) => key !== "seeds");
   console.log(keys);
-  for (let i = 0; i < seeds.length; i += 2) {
-    let [seedStart, length] = seeds.slice(i, i + 2);
+
+  for (let i = 0; i < keys.length; i++) {
+    let ranges = infoMap.get(keys[i]);
+    let newSeeds = [];
+
+    while (seeds2.length) {
+      let [start, end] = seeds2.pop();
+      for (let j = 0; j < ranges.length; j++) {
+        let [destinationStart, sourceStart, length] = ranges[j];
+        let overlapStart = Math.max(start, sourceStart);
+        let overlapEnd = Math.min(end, sourceStart + length);
+        if (overlapStart < overlapEnd) {
+          newSeeds.push([
+            overlapStart - sourceStart + destinationStart,
+            overlapEnd - sourceStart + destinationStart,
+          ]);
+          if (overlapStart > start) {
+            newSeeds.push([start, overlapStart]);
+          }
+          if (overlapEnd < end) {
+            newSeeds.push([overlapEnd, end]);
+          }
+          break;
+        }
+      }
+    }
+
+    seeds2 = newSeeds;
   }
 
-  console.log(minLocation);
-  return minLocation;
+  console.log(seeds2);
+
+  console.log(Math.min(...seeds2.map(([start]) => start)));
+
+  // while (seeds2.length) {
+  //   let [start, end] = seeds2.pop();
+  //   for (let i = 0; i < keys.length; i++) {
+  //     let [destinationStart, sourceStart, length] = infoMap.get(keys[i]);
+  //     let overlapStart = Math.max(start, sourceStart);
+  //     let overlapEnd = Math.min(end, sourceStart + length);
+  //     if (overlapStart < overlapEnd) {
+  //       newSeeds.push([
+  //         overlapStart - sourceStart + destinationStart,
+  //         overlapEnd - sourceStart + destinationStart,
+  //       ]);
+  //       if (overlapStart > start) {
+  //         newSeeds.push([start, overlapStart]);
+  //       }
+  //       if (overlapEnd < end) {
+  //         newSeeds.push([overlapEnd, end]);
+  //       }
+  //       break;
+  //     }
+  //   }
+
+  //   newSeeds.push([start, end]);
+  // }
+  // return Math.min(...newSeeds.map(([start]) => start));
 }
+
+console.log("Part 2", getMinLocationSecondPart());
