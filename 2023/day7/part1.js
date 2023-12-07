@@ -1,3 +1,37 @@
+const part1 = () => {
+  lines.sort((a, b) => {
+    const handA = a.split(" ")[0];
+    const handB = b.split(" ")[0];
+    return sortTwoHands(handA, handB);
+  });
+
+  lines.reverse();
+  let totalWinnings = 0;
+  for (let i = 0; i < lines.length; i++) {
+    const bid = lines[i].split(" ")[1];
+    totalWinnings += bid * (i + 1);
+  }
+
+  return totalWinnings;
+};
+
+const sortTwoHands = (handA, handB) => {
+  const handValueA = determineHandValue(handA);
+  const handValueB = determineHandValue(handB);
+  if (handValueA > handValueB) return -1; // Hand A wins
+  if (handValueB > handValueA) return 1; // Hand b wins
+  return determineTieBreaker(handA, handB); // -1 hand A wins 1 hand B wins
+};
+
+/*
+Five of a kind = 7
+Four of a kind = 6
+Full house = 5
+Three of a kind = 4
+Two pair = 3
+One pair = 2
+High card = 1
+*/
 const determineHandValue = (hand) => {
   const handSet = getHandSet(hand);
 
