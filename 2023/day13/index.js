@@ -8,98 +8,104 @@ let mirrors = syncReadFile("./input.txt", "\n\n");
 mirrors = mirrors.map((x) => x.split("\n").map((y) => y.split("")));
 console.log(mirrors);
 
-function part1() {
+function getSum(fixSmudge = false) {
   let sum = 0;
   for (let i = 0; i < mirrors.length; i++) {
-    let [isVertical, colsToLeft] = scanForVerticalLine(mirrors[i]);
+    let mirror = mirrors[i];
+    let axisOfSymmetry = getAxisOfSymmetry(mirror, fixSmudge);
 
-    if (isVertical) {
-      sum += colsToLeft;
-      continue;
+    if (axisOfSymmetry >= 0) {
+      sum += (axisOfSymmetry + 1) * 100;
+    } else {
+      let transposed = getTransposedMatrix(mirror);
+      axisOfSymmetry = getAxisOfSymmetry(transposed, fixSmudge);
+      if (axisOfSymmetry >= 0) {
+        sum += axisOfSymmetry + 1;
+      }
     }
-
-    let [isHorizontal, rowsAbove] = scanForHorizontalLine(mirrors[i]);
-
-    sum += rowsAbove * 100;
   }
 
   return sum;
 }
 
-console.log("Part 1: ", part1());
+console.log("Part 1: ", getSum());
+console.log("Part 2: ", getSum(true));
 
-function scanForVerticalLine(mirror) {
-  let len = mirror[0].length;
-  let pointer = 0;
-  let left;
-  let right;
+function getAxisOfSymmetry(mirror, fixSmudge = false) {
+  let len = mirror.length;
 
-  while (pointer < len - 1) {
-    let col1 = mirror.map((x) => x[pointer]).join("");
-    let col2 = mirror.map((x) => x[pointer + 1]).join("");
-
-    if (col1 === col2) {
-      left = pointer;
-      right = pointer + 1;
-      break;
+  for (let i = 0; i < len - 1; i++) {
+    if (isReflection(mirror, i, fixSmudge)) {
+      return i;
     }
-
-    pointer++;
   }
 
-  // Expand from the middle to see if its a valid mirror
-  let isVertical = true;
-
-  while (left >= 0 && right < len) {
-    let leftCol = mirror.map((x) => x[left]).join("");
-    let rightCol = mirror.map((x) => x[right]).join("");
-
-    if (leftCol !== rightCol) {
-      isVertical = false;
-      break;
-    }
-
-    left--;
-    right++;
-  }
-
-  return [isVertical, pointer + 1];
+  return -1;
 }
 
-function scanForHorizontalLine(mirror) {
-  let len = mirror.length;
-  let pointer = 0;
-  let top;
-  let bottom;
+function opposite(char) {
+  return char === "#" ? "." : "#";
+}
 
-  while (pointer < len - 1) {
-    let row1 = mirror[pointer].join("");
-    let row2 = mirror[pointer + 1].join("");
+function isReflection(mirror, axis, fixSmudge = false) {
+  let minlen = Math.min(axis + 1, mirror.length - axis - 1);
+  let mismatchAllowed = fixSmudge ? 1 : 0;
 
-    if (row1 === row2) {
-      top = pointer;
-      bottom = pointer + 1;
-      break;
+  for (let i = 0; i < minlen; i++) {
+    let row1Idx = axis - i;
+    let row2Idx = axis + i + 1;
+    let row1 = mirror[row1Idx];
+    let row2 = mirror[row2Idx];
+
+    let [isSame, mismatches, misMatchIndices] = isSameArray(row1, row2);
+
+    if (fixSmudge) {
+      if (mismatches === 1) {
+        let colIdx = misMatchIndices[0];
+        let tempMirror = deepCopy(mirror);
+        tempMirror[row1Idx][colIdx] = opposite(row1[colIdx]);
+        if (isReflection(tempMirror, axis, false)) {
+          return true;
+        }
+      }
     }
 
-    pointer++;
-  }
-
-  // Expand from the middle to see if its a valid mirror
-  let isHorizontal = true;
-
-  while (top >= 0 && bottom < len) {
-    let topRow = mirror[top].join("");
-    let bottomRow = mirror[bottom].join("");
-
-    if (topRow !== bottomRow) {
-      isHorizontal = false;
-      break;
+    if (!isSame) {
+      return false;
     }
-
-    top--;
-    bottom++;
   }
 
-  return [isHorizontal, pointer + 1];
+  return !fixSmudge;
+}
+
+function deepCopy(arr) {
+  return JSON.parse(JSON.stringify(arr));
+}
+
+function isSameArray(arr1, arr2) {
+  if (arr1.length !== arr2.length) {
+    return false;
+  }
+
+  let mismatches = 0;
+  let misMatchIndices = [];
+
+  for (let i = 0; i < arr1.length; i++) {
+    if (arr1[i] !== arr2[i]) {
+      mismatches++;
+      misMatchIndices.push(i);
+    }
+  }
+
+  return [mismatches < 1, mismatches, misMatchIndices];
+}
+
+function getTransposedMatrix(matrix) {
+  let transposed = [];
+
+  for (let i = 0; i < matrix[0].length; i++) {
+    transposed.push(matrix.map((x) => x[i]));
+  }
+
+  return transposed;
 }
